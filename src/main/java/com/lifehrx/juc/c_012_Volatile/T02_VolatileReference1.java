@@ -1,10 +1,10 @@
-/**
- * volatile 引用类型（包括数组）只能保证引用本身的可见性，不能保证内部字段的可见性
- */
 package com.lifehrx.juc.c_012_Volatile;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * volatile 引用类型（包括数组）只能保证引用本身的可见性，不能保证内部字段的可见性
+ */
 public class T02_VolatileReference1 {
 
     boolean running = true;
