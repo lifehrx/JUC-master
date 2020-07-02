@@ -1,3 +1,7 @@
+package com.lifehrx.juc.c_016_LockOptimization;
+
+import java.util.concurrent.TimeUnit;
+
 /**
  * synchronized优化
  *
@@ -5,17 +9,12 @@
  * 比较m1和m2
  *
  */
-package com.lifehrx.juc.c_016_LockOptimization;
-
-import java.util.concurrent.TimeUnit;
-
-
 public class FineCoarseLock {
 	
 	int count = 0;
 
 	/**
-	 * 锁粗化
+	 * 锁粗化 : 锁的范围大
 	 */
 	synchronized void m1() {
 		//do sth need not sync
@@ -36,7 +35,7 @@ public class FineCoarseLock {
 	}
 
 	/**
-	 * 锁细化
+	 * 锁细化 : 锁的范围小
 	 */
 	void m2() {
 		//do sth need not sync
@@ -57,7 +56,5 @@ public class FineCoarseLock {
 			e.printStackTrace();
 		}
 	}
-
-	
 
 }
