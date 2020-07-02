@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.LongAdder;
 
 /**
  * 第3课 : 23:00:00
- *
+ * <p>
  * 比较 sync AtomicLong LongAdder 效率
  */
 public class T02_AtomicVsSyncVsLongAdder {
@@ -21,16 +21,16 @@ public class T02_AtomicVsSyncVsLongAdder {
         Thread[] threads = new Thread[1000];
 
         // ------------------------ 一 ： Atomic -----------------------------------
-        for(int i=0; i<threads.length; i++) {
+        for (int i = 0; i < threads.length; i++) {
             threads[i] =
-                    new Thread(()-> {
-                        for(int k=0; k<100000; k++) count1.incrementAndGet();
+                    new Thread(() -> {
+                        for (int k = 0; k < 10_0000; k++) count1.incrementAndGet();
                     });
         }
 
         long start = System.currentTimeMillis();
 
-        for(Thread t : threads ) t.start();
+        for (Thread t : threads) t.start();
 
         for (Thread t : threads) t.join();
 
@@ -38,48 +38,48 @@ public class T02_AtomicVsSyncVsLongAdder {
 
         //TimeUnit.SECONDS.sleep(10);
 
-        System.out.println("Atomic: " + count1.get() + " time = " + (end-start));
+        System.out.println("Atomic: " + count1.get() + " 用时 = " + (end - start));
 
         //------------------------- 二: synchronized ----------------------------------
         Object lock = new Object();
 
-        for(int i=0; i<threads.length; i++) {
+        for (int i = 0; i < threads.length; i++) {
             threads[i] =
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
 
-                        for (int k = 0; k < 100000; k++)
-                            synchronized (lock) {
-                                count2++;
-                            }
-                    }
-                });
+                            for (int k = 0; k < 10_0000; k++)
+                                synchronized (lock) {
+                                    count2++;
+                                }
+                        }
+                    });
         }
 
         start = System.currentTimeMillis();
 
-        for(Thread t : threads ) t.start();
+        for (Thread t : threads) t.start();
 
         for (Thread t : threads) t.join();
 
         end = System.currentTimeMillis();
 
 
-        System.out.println("Sync: " + count2 + " time = " + (end-start));
+        System.out.println("Sync: " + count2 + " 用时 = " + (end - start));
 
 
         //-----------------------三 ： LongAdder 分段锁----------------------------
-        for(int i=0; i<threads.length; i++) {
+        for (int i = 0; i < threads.length; i++) {
             threads[i] =
-                    new Thread(()-> {
-                        for(int k=0; k<100000; k++) count3.increment();
+                    new Thread(() -> {
+                        for (int k = 0; k < 10_0000; k++) count3.increment();
                     });
         }
 
         start = System.currentTimeMillis();
 
-        for(Thread t : threads ) t.start();
+        for (Thread t : threads) t.start();
 
         for (Thread t : threads) t.join();
 
@@ -87,7 +87,7 @@ public class T02_AtomicVsSyncVsLongAdder {
 
         //TimeUnit.SECONDS.sleep(10);
 
-        System.out.println("LongAdder: " + count1.longValue() + " time = " + (end-start));
+        System.out.println("LongAdder: " + count1.longValue() + " 用时 = " + (end - start));
 
     }
 

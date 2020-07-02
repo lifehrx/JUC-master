@@ -21,6 +21,7 @@ public class T03_SyncVsLongAdder {
 
         for(Thread t : threads ) t.start();
 
+        // ?
         for (Thread t : threads) t.join();
 
         long end = System.currentTimeMillis();
@@ -28,6 +29,8 @@ public class T03_SyncVsLongAdder {
         //TimeUnit.SECONDS.sleep(10);
 
         System.out.println("LongAdder: " + count.longValue() + " time " + (end-start));
+
+
         //-----------------------------------------------------------
         Object lock = new Object();
 

@@ -1,21 +1,33 @@
-/**
- * 解决同样的问题的更高效的方法，使用AtomXXX类
- * AtomXXX类本身方法都是原子性的，但不能保证多个方法连续调用是原子性的
- */
 package com.lifehrx.juc.c_018_00_AtomicXXX_3;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
+/**
+ * 解决同样的问题的更高效的方法，使用AtomXXX类
+ * AtomXXX类本身方法都是原子性的，但不能保证多个方法连续调用是原子性的
+ */
 public class T01_AtomicInteger {
-	/*volatile*/ //int count1 = 0;
 
 	/**
-	 * AtomicInteger : 用法
+	 * 1. 使用 volatile 方法
 	 */
-	AtomicInteger count = new AtomicInteger(0); 
+	volatile int count1 = 0;
+	/*synchronized*/ void m1() {
+		for (int i = 0; i < 10000; i++)
+			count1++;
+	}
+
+	/**
+	 * 2. 使用 AtomicInteger 方法
+	 */
+	AtomicInteger count = new AtomicInteger(0);
+
+	void m2() {
+		for (int i = 0; i < 10000; i++)
+			count.incrementAndGet();
+	}
 
 	/*synchronized*/ void m() { 
 		for (int i = 0; i < 10000; i++)
@@ -29,7 +41,9 @@ public class T01_AtomicInteger {
 		List<Thread> threads = new ArrayList<Thread>();
 
 		for (int i = 0; i < 10; i++) {
-			threads.add(new Thread(t::m, "thread-" + i));
+
+			//threads.add(new Thread(t::m1, "thread-" + i));
+			threads.add(new Thread(t::m2, "thread-" + i));
 		}
 
 		threads.forEach((o) -> o.start());
@@ -42,6 +56,7 @@ public class T01_AtomicInteger {
 			}
 		});
 
+		//System.out.println(t.count1);
 		System.out.println(t.count);
 
 	}
