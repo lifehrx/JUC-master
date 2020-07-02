@@ -21,7 +21,6 @@
  * CountDownLatch不涉及锁定，当count的值为零时当前线程继续运行
  * 当不涉及同步，只是涉及线程通信的时候，用synchronized + wait/notify就显得太重了
  * 这时应该考虑countdownlatch/cyclicbarrier/semaphore
- *
  */
 package com.lifehrx.juc.c_020_01_Interview_4;
 
