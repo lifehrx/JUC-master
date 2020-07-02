@@ -1,8 +1,8 @@
+package com.lifehrx.juc.c_012_Volatile;
+
 /**
  * volatile 引用类型（包括数组）只能保证引用本身的可见性，不能保证内部字段的可见性
  */
-package com.lifehrx.juc.c_012_Volatile;
-
 public class T03_VolatileReference2 {
 
     private static class Data {
@@ -17,6 +17,7 @@ public class T03_VolatileReference2 {
     volatile static Data data;
 
     public static void main(String[] args) {
+
         Thread writer = new Thread(()->{
             for (int i = 0; i < 10000; i++) {
                 data = new Data(i, i);
@@ -28,6 +29,7 @@ public class T03_VolatileReference2 {
             int x = data.a;
             int y = data.b;
             if(x != y) {
+                // 读出来的 a = 0 / b = 不确定随机的
                 System.out.printf("a = %s, b=%s%n", x, y);
             }
         });
