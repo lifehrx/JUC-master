@@ -1,12 +1,12 @@
+package com.lifehrx.juc.c_020_01_3;
+
+import java.util.concurrent.TimeUnit;
+
 /**
  * reentrantlock用于替代synchronized
  * 本例中由于m1锁定this,只有m1执行完毕的时候,m2才能执行
  * 这里是复习synchronized最原始的语义
  */
-package com.lifehrx.juc.c_020_01_3;
-
-import java.util.concurrent.TimeUnit;
-
 public class T01_ReentrantLock1 {
 
 	synchronized void m1() {
