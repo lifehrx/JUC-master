@@ -1,0 +1,24 @@
+基于CAS的新类型的锁
+
+ReentrantLock ：可重入锁
+
+重入是对同一个对象锁两次
+
+sync : 自动解锁
+Lock : 手动解锁
+
+ReentrantLock 可以代替 synchronize
+ReentrantLock 部分功能比 synchronize 强大
+ReentrantLock 公平与非公平锁 synchronize 非公平锁
+
+synchronize wait 时必须用 notify唤醒
+lock 用 interpret 打断
+
+公平锁：哪个线程等在前面就先把锁给谁,当有新的线程来的时候会先检查队列有没有内容, 如果有就等着，而不是上来就抢.
+        也不是绝对的公平.
+ReentrantLock lock=new ReentrantLock(true);
+ReentrantLock 默认是不公平锁
+
+LockSupport 控制某一个线程的阻塞（之前是无法控制很多线程里的某一个线程的）
+
+

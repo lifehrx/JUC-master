@@ -1,0 +1,32 @@
+第6课 07:00 之后
+
+容器为线程池做准备 ： 容器也是考点
+
+容器理解为装一对一对对象的.
+
+物理上只有2中：数组 和 链表
+逻辑结构很多种 : tree ...
+
+Queue : 专门为并发准备的, 最主要的是为了线程池和高并发用的.
+
+发展过程
+【1】Vector    : 自带锁（基本不用） 一个一个的装东西
+【2】Hashtable : 自带锁sync（整个方法都加锁基本不用） 一对一对的装东西 （k, v）
+【3】HashMap   : 没有加sync
+【4】有锁的HashMap ： Collections.synchronizedMap(new HashMap<UUID, UUID>()); （把HashMap 变成加锁的版本,）
+【5】ConcurrentHashMap<>()  锁的粒度上变小了
+
+4个容器的效率比较
+Hashtable                   ： 线程安全 写慢 读也慢
+HashMap                     ： 线程不安全
+Collections.synchronizedMap ： 线程安全的HashMap 写慢 读也慢
+ConcurrentHashMap           ： 线程安全 写慢 读很快
+
+54:31
+
+
+
+
+
+
+

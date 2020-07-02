@@ -1,0 +1,38 @@
+ThreadLocal 第5课 第一部分 44:00-55:00
+
+【ThreadLocal1】 错误示范
+【ThreadLocal2】 正确例子
+
+【ThreadLocal用途】声明式事务【59:00-64:00】
+保证用的是同一个数据库连接Connection(放在一个连接池中)
+(spring mybatis等) 数据库连接写在配置文件里.
+每一方法都去数据库里拿数据库连接. 事务可以把这几个东西合到一起, 视为一个完整的事务.
+保证每一个方法拿的都是同一个连接？
+把第一个方法拿的连接放在 ThreadLocal 里.
+以后面的方法都从ThreadLocal取.即都从当前线程中取.(不从线程池中拿)
+
+一般是通过数据库的. 现在(spring mybatis等)可以把事务写到配置文件.
+                如数据库连接写到配置文件里.
+
+【ThreadLocal 源码】
+ 因此使用ThreadLocal 都是操作当前线程
+ public void set(T value) {
+        // 1. 拿到当前线程
+        Thread t = Thread.currentThread();
+        // 2. 值放到 map 里
+        ThreadLocalMap map = getMap(t);
+
+        if (map != null)
+        // 3. map key=this ThreadLocal对象,即当前对象
+            map.set(this, value);
+        else
+        // 4. == null  就创建一个
+            createMap(t, value);
+    }
+
+ThreadLocalMap getMap(Thread t) {
+        // ThreadLocalMap 在当前的Thread 里面 ： map 在当前线程的threadLocals里面
+        return t.threadLocals;
+    }
+
+

@@ -1,0 +1,11 @@
+Unsafe
+
+用途：直接操作 java虚拟机里的内存
+AtomicXXX 底层都是由Unsafe实现的。
+
+构造函数源码：JDK 1.8 (但是11.0有变化)
+private Unsafe() {
+
+}
+
+只能用 get() set()

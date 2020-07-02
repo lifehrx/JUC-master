@@ -1,0 +1,41 @@
+CAS (compare and set/swap) 第2节 1:27:00-1:51:00总结
+比较并且设定
+乐观锁 = 无锁优化 自旋 ： 必考
+乐观锁：乐观的期望在改的过程没线程改过,CAS就是无锁的操作,如果被改过了就在旁边等着,重新读.  第3节 17:00:00
+悲观锁：synchronized
+【原因】
+由于有一些常见的操作要经常加锁，所以Java提供了一些类自动加锁，但不是sync重量级锁。
+
+【CAS 是保证 AtomicXXX 线程安全】
+是CPU指令级的操作，执行中途不能被打断。
+所有的 Atomic 操作里面都是 compareAndSet
+
+【源码】
+【step1】和期望值做对比，如果是期望值更新为新值；若不是就表示线程不安全，期间被其它线程改动过了
+【step2】之后再试一次或失败
+ public final boolean compareAndSet(int expect, int update) {
+        return unsafe.compareAndSwapInt(this, valueOffset, expect, update);
+    }
+
+【CAS会产生 ABA问题】
+你女朋友和你分手了，中间经历了很多男朋友，但是你再去找她，她已经不是原来的她了。
+解决：加version 版本号。+1
+A version = 1.0
+B version = 2.0
+A version = 3.0
+除了校验值，还要校验版本号
+解决办法:AtomicStampedReference
+
+在基础类型上没有问题：
+例如：Integer 1-2-1 (最后还是变回1了)
+例如：o 结果是o指向了其他对象
+
+
+【3种锁在1000线程10万并发场景的效率】
+Atomic: 100000000 time = 1961
+Sync: 100000000 time = 4279
+LongAdder: 100000000 time = 229
+
+【结果】LongAdder > Atomic > Sync
+分段锁CAS > CAS > Sync
+越高并发LongAdder优势越明显
