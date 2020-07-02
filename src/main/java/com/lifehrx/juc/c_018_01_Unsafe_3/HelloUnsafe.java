@@ -1,7 +1,5 @@
 package com.lifehrx.juc.c_018_01_Unsafe_3;
 
-//import sun.misc.*;
-
 import sun.misc.Unsafe;
 
 public class HelloUnsafe {
