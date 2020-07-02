@@ -1,13 +1,12 @@
+package com.lifehrx.juc.c_017_MoreAboutSync;
+
+import java.util.concurrent.TimeUnit;
+
 /**
  * 锁定某对象o，如果o的属性发生改变，不影响锁的使用
  * 但是如果o变成另外一个对象，则锁定的对象发生改变
  * 应该避免将锁定对象的引用变成另外的对象
  */
-package com.lifehrx.juc.c_017_MoreAboutSync;
-
-import java.util.concurrent.TimeUnit;
-
-
 public class T1_SyncSameObject {
 
 	/**
@@ -25,8 +24,6 @@ public class T1_SyncSameObject {
 					e.printStackTrace();
 				}
 				System.out.println(Thread.currentThread().getName());
-				
-				
 			}
 		}
 	}
@@ -35,12 +32,14 @@ public class T1_SyncSameObject {
 		T1_SyncSameObject t = new T1_SyncSameObject();
 		//启动第一个线程
 		new Thread(t::m, "t1").start();
-		
+
+		// 睡眠3s
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+
 		//创建第二个线程
 		Thread t2 = new Thread(t::m, "t2");
 		
@@ -49,7 +48,5 @@ public class T1_SyncSameObject {
 		t2.start();
 		
 	}
-
-	
 
 }
