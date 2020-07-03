@@ -21,4 +21,7 @@ ReentrantLock 默认是不公平锁
 
 LockSupport 控制某一个线程的阻塞（之前是无法控制很多线程里的某一个线程的）
 
+AQS : AbstractQueuedSynchronizer 抽象的队列式的同步器
+在这个包下 java.util.concurrent.locks
+
 

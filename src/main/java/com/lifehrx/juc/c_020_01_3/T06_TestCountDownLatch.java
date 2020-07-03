@@ -1,13 +1,16 @@
 package com.lifehrx.juc.c_020_01_3;
+
+import java.util.concurrent.CountDownLatch;
 /**
  * 注释：新的锁都用到了AQS,即都用到了CAS
  *
  * CountDownLatch : 倒数门栓（54321 门开了）等待发车坐满就走
  *
+ * JDK1.8官方文档：允许一个或多个线程等待直到在其他线程中执行的一组操作完成的同步辅助。
+ *                有线程调用await在门口等待，直到被调用countDown()的线程打开。
+ *                一个CountDownLatch初始化N可以用来做一个线程等待，直到N个线程完成某项操作，
+ *                或某些动作已经完成N次。
  */
-
-import java.util.concurrent.CountDownLatch;
-
 public class T06_TestCountDownLatch {
 
     public static void main(String[] args) {
@@ -20,7 +23,7 @@ public class T06_TestCountDownLatch {
      */
     private static void usingCountDownLatch() {
         // 100 个线程
-        Thread[] threads = new Thread[2];
+        Thread[] threads = new Thread[100];
 
         CountDownLatch latch = new CountDownLatch(threads.length);
 
