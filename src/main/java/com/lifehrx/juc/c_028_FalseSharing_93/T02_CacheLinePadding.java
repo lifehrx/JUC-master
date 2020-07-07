@@ -1,7 +1,20 @@
-package com.lifehrx.juc.c_028_FalseSharing;
+package com.lifehrx.juc.c_028_FalseSharing_93;
 
-public class T01_CacheLinePadding {
-    private static class T {
+/**
+ * 写法二 ： 不在同一缓存行
+ * 模拟：两个线程同时在更新各自数组里x的值。
+ *       不在同一个缓存行。
+ *       效率比T01高，时间少了。
+ */
+public class T02_CacheLinePadding {
+    // 7*8 = 56 字节 这7个变量是为了缓存行对齐，填充，效率提升了
+    private static class Padding {
+        // 空间虽然浪费了一点，但是效率提升了。
+        public volatile long p1, p2, p3, p4, p5, p6, p7;
+    }
+
+    // 继承Padding ： T 对象自己占一行，所以不会和其他占一行
+    private static class T extends Padding {
         public volatile long x = 0L;
     }
 
@@ -30,6 +43,6 @@ public class T01_CacheLinePadding {
         t2.start();
         t1.join();
         t2.join();
-        System.out.println((System.nanoTime() - start)/100_0000);
+        System.out.println("不在同一缓存行所用时间：" + (System.nanoTime() - start)/100_0000);
     }
 }
