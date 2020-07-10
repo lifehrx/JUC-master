@@ -12,7 +12,6 @@ import java.util.concurrent.CyclicBarrier;
  * 但实际中使用 ： Guava RateLimiter
  *
  * 应用场景2： 复制操作访问文件，数据库， 网络。并发的执行3种操作等都返回了相应的数据，再进行下一步操作。
- *
  */
 public class T07_TestCyclicBarrier {
 
@@ -34,6 +33,7 @@ public class T07_TestCyclicBarrier {
 
         CyclicBarrier barrier = new CyclicBarrier(1, new Runnable() {
             int i = 0;
+
             @Override
             public void run() {
                 System.out.println(++i + " 满人，发车");
@@ -41,22 +41,20 @@ public class T07_TestCyclicBarrier {
         });
 
 
+        for (int i = 0; i < 100; i++) {
 
-        for(int i=0; i<100; i++) {
+            new Thread(() -> {
+                try {
 
-                new Thread(()->{
-                    try {
+                    // 第1....n 个线程来了在 barrier栅栏这儿等着（等够20个了发车）每个线程必须调用await() ，要不栏不住。
+                    barrier.await();
 
-                        // 第1....n 个线程来了在 barrier栅栏这儿等着（等够20个了发车）每个线程必须调用await() ，要不栏不住。
-                        barrier.await();
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (BrokenBarrierException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-            
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (BrokenBarrierException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
     }
 }
